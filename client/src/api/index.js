@@ -1,7 +1,8 @@
 import axios from 'axios';
-
-const API = axios.create({ baseURL: 'http://localhost:5000' });
-
+import dotenv from 'dotenv';
+dotenv.config();
+// const BASE_URL = process.env.BASE_URL;
+const API = axios.create({ baseURL : "https://beingsocialbackend.onrender.com"});
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('profile')) {
     req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
@@ -19,6 +20,5 @@ export const likePost = (id) => API.patch(`/posts/${id}/likePost`);
 export const comment = (value, id) => API.post(`/posts/${id}/commentPost`, { value });
 export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost);
 export const deletePost = (id) => API.delete(`/posts/${id}`);
-
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);
